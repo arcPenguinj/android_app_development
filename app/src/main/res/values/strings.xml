@@ -7,4 +7,10 @@
     <string name="send_more_stickers_string">Send more Stickers</string>
     <string name="send_message_string">send sticker!</string>
     <string name="to_string">To:</string>
+    <string name="username">"user name "</string>
+    <string name="emoji_sent">#emoji sent</string>
+    <string name="usernames">Username</string>
+    <string name="channel_name">Notification Name</string>
+    <string name="channel_description">Notification channel</string>
+    <string name="channel_id">channel_id</string>
 </resources>
