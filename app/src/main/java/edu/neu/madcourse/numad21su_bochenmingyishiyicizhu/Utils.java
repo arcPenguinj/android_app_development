@@ -2,6 +2,9 @@ package edu.neu.madcourse.numad21su_bochenmingyishiyicizhu;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -19,19 +22,6 @@ import java.util.Properties;
  */
 
 public class Utils {
-    public static Properties getProperties(Context context)  {
-        Properties properties = new Properties();
-        AssetManager assetManager = context.getAssets();
-        InputStream inputStream = null;
-        try {
-            inputStream = assetManager.open("firebase.properties");
-            properties.load(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return properties;
-    }
 
     public static String convertStreamToString(InputStream inputStream) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -76,5 +66,16 @@ public class Utils {
             return "NULL";
         }
 
+    }
+
+    public static void postToastMessage(final String message, final Context context){
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

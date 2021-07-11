@@ -4,15 +4,24 @@ import android.app.Application;
 
 public class StickItApplication extends Application {
 
-    private static final String FIREBASE_SERVER_KEY = "AAAAmhVYbWA:APA91bEYlh1r0r4KlP6-dDJ2tJK1mwgHnzmnLM87wPfpAgWCwRiKK1At2Em6UhtQrrVpe8ck0pyV7G1CTHgvH3Ag6YmYfPY4_RFGMxOmo3vgJi1eYlK5HbMwSy41Xc1kwDHQedMn98d9";
+    public static final String FIREBASE_SERVER_KEY = "AAAAmhVYbWA:APA91bEYlh1r0r4KlP6-dDJ2tJK1mwgHnzmnLM87wPfpAgWCwRiKK1At2Em6UhtQrrVpe8ck0pyV7G1CTHgvH3Ag6YmYfPY4_RFGMxOmo3vgJi1eYlK5HbMwSy41Xc1kwDHQedMn98d9";
 
-    private String firebase_client_key = "";
+    private String firebase_client_token = "";
+    private String username = "";
 
-    public String getFirebaseServerKey() {
-        return firebase_client_key;
+    public String getFirebase_client_token() {
+        return firebase_client_token;
     }
 
-    public void setFirebaseServerKey(String key) {
-        this.firebase_client_key = key;
+    public void setFirebase_client_token(String key) {
+        this.firebase_client_token = key;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
