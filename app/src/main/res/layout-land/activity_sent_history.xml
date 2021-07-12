@@ -20,14 +20,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sentViewId"
         android:layout_width="0dp"
-        android:layout_height="240dp"
+        android:layout_height="120dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalSentId"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/totalReceiveId"
@@ -45,7 +45,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/receiveViewId"
         android:layout_width="0dp"
-        android:layout_height="240dp"
+        android:layout_height="120dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -20,9 +20,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +41,7 @@ public class SendNewActivity extends AppCompatActivity {
     private List<User> otherUsers;
     private DatabaseReference mDatabase;
     private String myname;
+    private List<Message> allMessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class SendNewActivity extends AppCompatActivity {
         cry = (ImageView)findViewById(R.id.stickerCry);
         spinner = (Spinner)findViewById(R.id.spinner1);
         selectedSticker = null;
+        allMessages = new ArrayList<>();
 
         myname = ((StickItApplication)getApplication()).getUsername();
 
@@ -64,7 +69,7 @@ public class SendNewActivity extends AppCompatActivity {
                         if (users == null || users.size() == 1) {
                             Toast.makeText(getApplicationContext(),"No other users to send!",Toast.LENGTH_SHORT).show();
                         } else {
-                            otherUsers = users.stream().filter(u -> !u.equals(new User(myname))).collect(Collectors.toList());
+                            otherUsers = users.stream().filter(u -> u!=null && u.token!=null && !u.equals(new User(myname))).collect(Collectors.toList());
 
                             ArrayAdapter<User> arrayAdapter = new ArrayAdapter<User>(SendNewActivity.this, android.R.layout.simple_spinner_item, otherUsers);
                             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -85,6 +90,26 @@ public class SendNewActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError error) {
 
+                    }
+                }
+        );
+
+        mDatabase.child("messages").addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        GenericTypeIndicator<List<Message>> t = new GenericTypeIndicator<List<Message>>() {};
+                        List<Message> messages = snapshot.getValue(t);
+                        if (messages == null) {
+                            Toast.makeText(getApplicationContext(),"no messages",Toast.LENGTH_SHORT).show();
+                        } else {
+                            allMessages = messages;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                        Toast.makeText(getApplicationContext(),"Something went wrong!",Toast.LENGTH_SHORT).show();
                     }
                 }
         );
@@ -143,8 +168,8 @@ public class SendNewActivity extends AppCompatActivity {
         JSONObject jNotification = new JSONObject();
         JSONObject jdata = new JSONObject();
         try {
-            jNotification.put("title", "Receive sticker from user: " + myname + ", " + selectedSticker);
-            jNotification.put("body", "Sticker: " + selectedSticker);
+            jNotification.put("title", "New sticker received from " + myname);
+            jNotification.put("body", selectedSticker);
             jNotification.put("sound", "default");
             jNotification.put("badge", "1");
             /*
@@ -152,8 +177,8 @@ public class SendNewActivity extends AppCompatActivity {
             // We happen to be ignoring them for this demo.
             jNotification.put("click_action", "OPEN_ACTIVITY_1");
             */
-            jdata.put("title", "Receive sticker from user: " + myname + ", " + selectedSticker);
-            jdata.put("content", "Sticker: " + selectedSticker);
+            jdata.put("title", "New sticker from " + myname);
+            jdata.put("content", selectedSticker);
 
             /***
              * The Notification object is now populated.
@@ -181,7 +206,15 @@ public class SendNewActivity extends AppCompatActivity {
         }
 
         final String resp = Utils.fcmHttpConnection("key=" + StickItApplication.FIREBASE_SERVER_KEY, jPayload);
-        Utils.postToastMessage("Status from Server: " + resp, getApplicationContext());
+        // Utils.postToastMessage("Status from Server: " + resp, getApplicationContext());
+        if (resp != null) {
+            // update db for history
+            User to = selectedUser;
+            User from = new User(((StickItApplication)getApplication()).getUsername(), ((StickItApplication)getApplication()).getFirebase_client_token());
+            Message m = new Message(new Date(), from, to, selectedSticker.toString());
+            allMessages.add(m);
+            mDatabase.child("messages").setValue(allMessages);
+        }
     }
 
     private void unselectAll() {

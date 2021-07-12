@@ -6,7 +6,6 @@ public class User {
 
     public String username;
     public String token;
-    public String sentNumber;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -15,13 +14,11 @@ public class User {
     public User(String username, String token) {
         this.username = username;
         this.token = token;
-        this.sentNumber = "0";
     }
 
     public User(String username) {
         this.username = username;
         this.token = "";
-        this.sentNumber = "0";
     }
 
     @Override

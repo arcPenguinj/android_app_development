@@ -2,11 +2,12 @@
     <string name="app_name">NUMAD21Su-BoChen,MingyiShi,YiciZhu</string>
     <string name="log_in_string">LOG IN</string>
     <string name="enter_user_name_string">Enter User Name:</string>
-    <string name="show_sent_history_string">Show Sent History</string>
-    <string name="show_received_history_string">Show Received History</string>
-    <string name="send_more_stickers_string">Send more Stickers</string>
+    <string name="show_sent_history_string">Show History</string>
+    <string name="send_more_stickers_string">Send new Stickers</string>
     <string name="send_message_string">send sticker!</string>
     <string name="to_string">To:</string>
+    <string name="from_string">From:</string>
+    <string name="date_string">Date:</string>
     <string name="username">"user name "</string>
     <string name="emoji_sent">#emoji sent</string>
     <string name="usernames">Username</string>

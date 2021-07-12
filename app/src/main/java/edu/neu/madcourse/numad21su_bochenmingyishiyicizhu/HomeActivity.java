@@ -23,11 +23,6 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openActivity3(View view) {
-        Intent intent = new Intent(this, ReceivedHistoryActivity.class);
-        startActivity(intent);
-    }
-
     public void openActivity4(View view) {
         Intent intent = new Intent(this, SendNewActivity.class);
         startActivity(intent);
