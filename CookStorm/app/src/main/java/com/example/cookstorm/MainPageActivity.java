@@ -28,8 +28,6 @@ public class MainPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
 
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
@@ -57,9 +55,9 @@ public class MainPageActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.add_post, null);
 
-        ImageView picPost = (ImageView)view.findViewById(R.id.imagePost);
-        EditText textPost = (EditText)view.findViewById(R.id.et_postText);
-        EditText titlePost = (EditText)view.findViewById(R.id.et_postTitle);
+        ImageView picPost = (ImageView) view.findViewById(R.id.imagePost);
+        EditText textPost = (EditText) view.findViewById(R.id.et_postText);
+        EditText titlePost = (EditText) view.findViewById(R.id.et_postTitle);
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
@@ -67,23 +65,23 @@ public class MainPageActivity extends AppCompatActivity {
         dialog.setPositiveButton("Post", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(MainPageActivity.this, "posted!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainPageActivity.this, "posted!", Toast.LENGTH_SHORT).show();
                 String text = textPost.toString();
                 int imgPost = picPost.getImageAlpha();
                 String title = titlePost.toString();
 
                 // 除了以上三个添加的参数信息， 其他参数需要从database来？
-                modelArrayList.add(new Model(10032,13, 20, 2313, imgPost, "new user", "1 hrs ago", title, "master", text));
+                modelArrayList.add(new Model(10032, 13, 20, 2313, imgPost, "new user", "1 hrs ago", title, "master", text));
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
         });
 
 
-        dialog.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(MainPageActivity.this, "Cancelled",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainPageActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
 
             }
         });

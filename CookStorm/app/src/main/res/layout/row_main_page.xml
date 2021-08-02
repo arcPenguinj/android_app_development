@@ -21,44 +21,44 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imgView_proPic"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
                 android:text="Elon Musk"
                 android:textColor="@color/black"
-                android:textSize="17dp"
-                android:fontFamily="sans-serif-medium"
-                android:layout_height="wrap_content"/>
+                android:textSize="17dp" />
 
 
             <Space
                 android:layout_width="20dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/tv_rankInfo"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
                 android:text="Average cooker"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="17dp"
-                android:fontFamily="sans-serif-condensed"
-                android:layout_height="wrap_content"/>
+                android:textSize="17dp" />
 
             <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
                 android:text="3 hrs ago"
                 android:textColor="@color/grey"
-                android:textSize="16dp"
-                android:fontFamily="sans-serif"
-                android:layout_height="wrap_content"/>
+                android:textSize="16dp" />
 
         </LinearLayout>
 
@@ -66,30 +66,30 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_title"
         android:layout_below="@+id/rellay1"
         android:layout_marginTop="10dp"
         android:text="Texas Barbecue (Title)"
         android:textColor="@color/black"
-        android:textSize="20dp"/>
+        android:textSize="20dp" />
 
     <ImageView
         android:id="@+id/imgView_postPic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_title"
+        android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/bbq"/>
+        android:src="@drawable/bbq" />
 
     <RelativeLayout
         android:id="@+id/rellay2"
-        android:layout_below="@+id/imgView_postPic"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgView_postPic">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -98,16 +98,16 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/like"/>
-            
+                android:src="@drawable/like" />
+
             <TextView
                 android:id="@+id/tv_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="18"
-                android:textSize="15dp"
                 android:textColor="@color/black"
-                android:layout_marginLeft="5dp"/>
+                android:textSize="15dp" />
 
 
         </LinearLayout>
@@ -116,10 +116,10 @@
             android:id="@+id/tv_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="15dp"
             android:layout_alignParentRight="true"
-            android:text="5 comments"/>
+            android:text="5 comments"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
 
     </RelativeLayout>
 
@@ -129,39 +129,38 @@
         android:layout_height="0.5dp"
         android:layout_below="@+id/rellay2"
         android:layout_marginTop="10dp"
-        android:background="@color/light_grey"/>
-    
+        android:background="@color/light_grey" />
+
     <LinearLayout
         android:id="@+id/LinearLayout"
         android:layout_width="match_parent"
-        android:layout_below="@+id/imgView_line"
-        android:layout_height="45dp">
-
+        android:layout_height="45dp"
+        android:layout_below="@+id/imgView_line">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <LinearLayout
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
 
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_like_btn"/>
+                    android:src="@drawable/ic_like_btn" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Like"
-                    android:fontFamily="sans-serif-medium"
                     android:textColor="@color/black"
                     android:textSize="13dp">
 
@@ -171,29 +170,30 @@
             </LinearLayout>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <LinearLayout
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
 
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_favorite_btn"/>
+                    android:src="@drawable/ic_favorite_btn" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Favorite"
-                    android:fontFamily="sans-serif-medium"
                     android:textColor="@color/black"
                     android:textSize="13dp">
 
@@ -203,29 +203,30 @@
             </LinearLayout>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <LinearLayout
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
 
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_comment_btn"/>
+                    android:src="@drawable/ic_comment_btn" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Comment"
                     android:fontFamily="sans-serif-medium"
+                    android:text="Comment"
                     android:textColor="@color/black"
                     android:textSize="13dp">
 
@@ -248,21 +249,21 @@
         <TextView
             android:id="@+id/recipe_text"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
             android:text="Recipe"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="20dp"
-            android:fontFamily="sans-serif"
-            android:layout_height="wrap_content"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/tv_recipe_field"
-            android:layout_below="@+id/recipe_text"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recipe_text"
             android:text="Step 1
 Place ribs in a large pot with enough water to cover. Season with garlic powder, black pepper and salt. Bring water to a boil, and cook ribs until tender.\n\nStep 2
 Preheat oven to 325 degrees F (165 degrees C).\n\nStep 3
-Remove ribs from pot, and place them in a 9x13 inch baking dish. Pour barbeque sauce over ribs. Cover dish with aluminum foil, and bake in the preheated oven for 1 to 1 1/2 hours, or until internal temperature of pork has reached 160 degrees F (70 degrees C)."
-            android:layout_height="wrap_content"/>
+Remove ribs from pot, and place them in a 9x13 inch baking dish. Pour barbeque sauce over ribs. Cover dish with aluminum foil, and bake in the preheated oven for 1 to 1 1/2 hours, or until internal temperature of pork has reached 160 degrees F (70 degrees C)." />
 
 
     </RelativeLayout>

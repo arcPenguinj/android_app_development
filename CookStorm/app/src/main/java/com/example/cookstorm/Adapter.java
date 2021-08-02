@@ -48,7 +48,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         holder.tv_recipeField.setText(model.getRecipeField());
 
 
-        if(model.getProPic() == 0) {
+        if (model.getProPic() == 0) {
             holder.imgView_proPic.setVisibility(View.GONE);
         } else {
             holder.imgView_proPic.setVisibility(View.VISIBLE);
@@ -56,7 +56,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         }
 
 
-        if(model.getPostPic() == 0) {
+        if (model.getPostPic() == 0) {
             holder.imgView_postPic.setVisibility(View.GONE);
         } else {
             holder.imgView_postPic.setVisibility(View.VISIBLE);
@@ -74,17 +74,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv_name, tv_time, tv_likes, tv_comments, tv_title, tv_rankInfo, tv_recipeField;
         ImageView imgView_proPic, imgView_postPic;
+
         public MyViewHolder(View itemView) {
             super(itemView);
-            imgView_proPic = (ImageView)itemView.findViewById(R.id.imgView_proPic);
-            imgView_postPic = (ImageView)itemView.findViewById(R.id.imgView_postPic);
-            tv_name = (TextView)itemView.findViewById(R.id.tv_name);
-            tv_comments = (TextView)itemView.findViewById(R.id.tv_comment);
-            tv_likes = (TextView)itemView.findViewById(R.id.tv_like);
-            tv_time = (TextView)itemView.findViewById(R.id.tv_time);
-            tv_title = (TextView)itemView.findViewById(R.id.tv_title);
-            tv_rankInfo = (TextView)itemView.findViewById(R.id.tv_rankInfo);
-            tv_recipeField = (TextView)itemView.findViewById(R.id.tv_recipe_field);
+            imgView_proPic = (ImageView) itemView.findViewById(R.id.imgView_proPic);
+            imgView_postPic = (ImageView) itemView.findViewById(R.id.imgView_postPic);
+            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+            tv_comments = (TextView) itemView.findViewById(R.id.tv_comment);
+            tv_likes = (TextView) itemView.findViewById(R.id.tv_like);
+            tv_time = (TextView) itemView.findViewById(R.id.tv_time);
+            tv_title = (TextView) itemView.findViewById(R.id.tv_title);
+            tv_rankInfo = (TextView) itemView.findViewById(R.id.tv_rankInfo);
+            tv_recipeField = (TextView) itemView.findViewById(R.id.tv_recipe_field);
 
         }
     }

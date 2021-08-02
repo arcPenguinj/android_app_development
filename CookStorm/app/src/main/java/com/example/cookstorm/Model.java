@@ -54,6 +54,7 @@ public class Model {
     public String getRankInfo() {
         return rankInfo;
     }
+
     public String getRecipeField() {
         return recipeField;
     }

@@ -1,54 +1,124 @@
 package com.example.cookstorm;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
 
-    private EditText Name;
-    private EditText Password;
+    private EditText emailTextView;
+    private EditText passwordTextView;
     private Button Login;
+    private ProgressBar progressbar;
+    private FirebaseAuth mAuth;
+    private int counter = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Name = (EditText) findViewById(R.id.etUserName);
-        Password = (EditText) findViewById(R.id.etPassword);
+        emailTextView = findViewById(R.id.etEmail);
+        passwordTextView = findViewById(R.id.etPassword);
+        progressbar = findViewById(R.id.progressBar);
 
-        TextView btn=findViewById(R.id.textViewSignUp);
+        // taking instance of FirebaseAuth
+        mAuth = FirebaseAuth.getInstance();
+
+        TextView btn = findViewById(R.id.textViewSignUp);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,RegisterActivity.class));
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
             }
         });
 
-        Login = (Button) findViewById(R.id.btnLogin);
+        Login = findViewById(R.id.btnLogin);
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validate(Name.getText().toString(), Password.getText().toString());
+                String email = emailTextView.getText().toString();
+                String password = passwordTextView.getText().toString();
+                if (validate(email, password)) {
+                    loginUserAccount(email, password);
+                }
             }
         });
     }
 
-
-    // need further implement
-    private void validate(String userName, String userPassword) {
-        if (userName.equals("ad") && (userPassword.equals("12"))) {
-            Intent intent = new Intent(MainActivity.this, MainPageActivity.class);
-            startActivity(intent);
-        }else{
-            Toast.makeText(MainActivity.this, "Invalid Username or Password",Toast.LENGTH_SHORT).show();
+    // validate the email address and password
+    private boolean validate(String email, String password) {
+        // validations for input email and password
+        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(getApplicationContext(),
+                    "Please enter a validate email address!!",
+                    Toast.LENGTH_LONG)
+                    .show();
+            return false;
         }
+
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(getApplicationContext(),
+                    "Please enter password!!",
+                    Toast.LENGTH_LONG)
+                    .show();
+            return false;
+        }
+        return true;
+    }
+
+    private void loginUserAccount(String email, String password) {
+
+        // show the visibility of progress bar to show loading
+        progressbar.setVisibility(View.VISIBLE);
+
+        // signin existing user
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(
+                        new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(
+                                    @NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Login successful!!",
+                                            Toast.LENGTH_LONG)
+                                            .show();
+
+                                    // hide the progress bar
+                                    progressbar.setVisibility(View.GONE);
+
+                                    // if sign-in is successful
+                                    // intent to home activity
+                                    Intent intent = new Intent(MainActivity.this, MainPageActivity.class);
+                                    startActivity(intent);
+                                } else {
+
+                                    // sign-in failed
+                                    Toast.makeText(getApplicationContext(),
+                                            "Login failed!!",
+                                            Toast.LENGTH_LONG)
+                                            .show();
+
+                                    // hide the progress bar
+                                    progressbar.setVisibility(View.GONE);
+                                }
+                            }
+                        });
     }
 }
