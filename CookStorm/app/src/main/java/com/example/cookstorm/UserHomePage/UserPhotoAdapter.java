@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class UserPhotoAdapter extends ArrayAdapter<UserPhoto> {
 
-    public UserPhotoAdapter(Context context, ArrayList photoList) {
+    public UserPhotoAdapter(Context context, ArrayList<UserPhoto> photoList) {
         super(context, 0, photoList);
     }
 
