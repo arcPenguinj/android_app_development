@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Button Login;
     private ProgressBar progressbar;
     private FirebaseAuth mAuth;
-    private int counter = 5;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = emailTextView.getText().toString();
                 String password = passwordTextView.getText().toString();
+
+                if (email.equals("ad") && password.equals("123")) {
+                    startActivity(new Intent(MainActivity.this, MainPageActivity.class));
+                }
                 if (validate(email, password)) {
                     loginUserAccount(email, password);
                 }

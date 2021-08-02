@@ -6,23 +6,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cookstorm.UserHomePage.UserPageActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.like.LikeButton;
 
 import java.util.ArrayList;
 
-public class MainPageActivity extends AppCompatActivity {
+public class MainPageActivity extends AppCompatActivity implements ItemClickListener {
     FloatingActionButton addsBtn;
+    FloatingActionButton homeBtn;
     RecyclerView recyclerView;
     ArrayList<Model> modelArrayList;
     Adapter adapter;
+    LikeButton thumb, heart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class MainPageActivity extends AppCompatActivity {
         adapter = new Adapter(this, modelArrayList);
         recyclerView.setAdapter(adapter);
 
+
         addsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +54,22 @@ public class MainPageActivity extends AppCompatActivity {
         });
 
         populateRecyclerView();
+
+        homeBtn = findViewById(R.id.homeBtn);
+
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openUserPageActivity();
+
+            }
+        });
+    }
+
+
+    public void openUserPageActivity() {
+        Intent intent = new Intent(this, UserPageActivity.class);
+        startActivity(intent);
     }
 
     public void addingPost() {
@@ -66,9 +87,9 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(MainPageActivity.this, "posted!", Toast.LENGTH_SHORT).show();
-                String text = textPost.toString();
+                String text = textPost.getText().toString();
                 int imgPost = picPost.getImageAlpha();
-                String title = titlePost.toString();
+                String title = titlePost.getText().toString();
 
                 // 除了以上三个添加的参数信息， 其他参数需要从database来？
                 modelArrayList.add(new Model(10032, 13, 20, 2313, imgPost, "new user", "1 hrs ago", title, "master", text));
@@ -109,5 +130,22 @@ public class MainPageActivity extends AppCompatActivity {
         modelArrayList.add(modelElon);
 
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void like_minus(Model model, int position) {
+        if (model.getLikes() == 0) {
+            return;
+        } else {
+            model.likes--;
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void like_plus(Model model, int position) {
+        model.likes++;
+        adapter.notifyDataSetChanged();
+
     }
 }

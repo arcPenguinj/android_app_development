@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="10dp"
     android:background="@color/white">
 
@@ -148,23 +149,21 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_like_btn" />
+                <com.like.LikeButton
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/thumb_button"
+                    app:icon_type="thumb"
+                    app:circle_end_color = "@android:color/holo_blue_dark"
+                    app:circle_start_color="@android:color/holo_blue_bright"
+                    app:dots_primary_color="@android:color/holo_blue_light"
+                    app:dots_secondary_color="@android:color/holo_blue_dark"
+                    app:icon_size="25dp"
+                    app:like_drawable="@drawable/thumb_on"
+                    app:unlike_drawable="@drawable/thumb_off" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Like"
-                    android:textColor="@color/black"
-                    android:textSize="13dp">
 
-                </TextView>
+
 
 
             </LinearLayout>
@@ -181,23 +180,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_favorite_btn" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Favorite"
-                    android:textColor="@color/black"
-                    android:textSize="13dp">
-
-                </TextView>
+                <com.like.LikeButton
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/heart_button"
+                    app:icon_size="25dp"
+                    app:anim_scale_factor="3"
+                    app:icon_type="heart"/>
 
 
             </LinearLayout>
@@ -214,23 +203,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_comment_btn" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Comment"
-                    android:textColor="@color/black"
-                    android:textSize="13dp">
-
-                </TextView>
+               <ImageButton
+                   android:layout_width="wrap_content"
+                   android:id="@+id/comment_button"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/ic_comment_btn"
+                   android:background="@color/white"/>
 
 
             </LinearLayout>

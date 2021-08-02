@@ -6,12 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     Context context;
     ArrayList<Model> modelArrayList = new ArrayList<>();
     RequestManager glide;
+    private OnLikeListener listener;
+    ItemClickListener itemClickListener;
+
 
     public Adapter(Context context, ArrayList<Model> modelArrayList) {
         this.context = context;
@@ -41,11 +47,27 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
         holder.tv_name.setText(model.getName());
         holder.tv_time.setText(model.getTime());
+
+
         holder.tv_likes.setText(String.valueOf(model.getLikes()));
         holder.tv_comments.setText(model.getComments() + "comments");
         holder.tv_title.setText(model.getTitle());
         holder.tv_rankInfo.setText(model.getRankInfo());
         holder.tv_recipeField.setText(model.getRecipeField());
+
+        holder.thumb.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                itemClickListener.like_plus(model, position);
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                itemClickListener.like_minus(model, position);
+
+            }
+        });
 
 
         if (model.getProPic() == 0) {
@@ -74,6 +96,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv_name, tv_time, tv_likes, tv_comments, tv_title, tv_rankInfo, tv_recipeField;
         ImageView imgView_proPic, imgView_postPic;
+        LikeButton heart, thumb;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -86,6 +109,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
             tv_title = (TextView) itemView.findViewById(R.id.tv_title);
             tv_rankInfo = (TextView) itemView.findViewById(R.id.tv_rankInfo);
             tv_recipeField = (TextView) itemView.findViewById(R.id.tv_recipe_field);
+            heart = (LikeButton) itemView.findViewById(R.id.heart_button);
+            thumb = (LikeButton) itemView.findViewById(R.id.thumb_button);
 
         }
     }
