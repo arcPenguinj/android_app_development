@@ -54,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = emailTextView.getText().toString();
                 String password = passwordTextView.getText().toString();
+
+                // TODO: only for developing, remove this code after release.
+                if(email.equals("ad") && password.equals("123")) {
+                    Intent intent = new Intent(MainActivity.this, MainPageActivity.class);
+                    startActivity(intent);
+                }
+
                 if (validate(email, password)) {
                     loginUserAccount(email, password);
                 }
