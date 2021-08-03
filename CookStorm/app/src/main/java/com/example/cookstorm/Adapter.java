@@ -1,29 +1,31 @@
 package com.example.cookstorm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+
+import com.example.cookstorm.CommentRecyclerView.CommentPageActivity;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
 import java.util.ArrayList;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
+public class Adapter extends RecyclerView.Adapter<Adapter.MainPostViewHolder> {
     Context context;
     ArrayList<Model> modelArrayList = new ArrayList<>();
     RequestManager glide;
     private OnLikeListener listener;
-    ItemClickListener itemClickListener;
 
 
     public Adapter(Context context, ArrayList<Model> modelArrayList) {
@@ -34,15 +36,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MainPostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_main_page, parent, false);
-        MyViewHolder viewHolder = new MyViewHolder(view);
+        MainPostViewHolder viewHolder = new MainPostViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MainPostViewHolder holder, int position) {
         final Model model = modelArrayList.get(position);
 
         holder.tv_name.setText(model.getName());
@@ -50,24 +52,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
 
         holder.tv_likes.setText(String.valueOf(model.getLikes()));
-        holder.tv_comments.setText(model.getComments() + "comments");
+        holder.tv_comments.setText(model.getComments() + " comments");
         holder.tv_title.setText(model.getTitle());
         holder.tv_rankInfo.setText(model.getRankInfo());
         holder.tv_recipeField.setText(model.getRecipeField());
 
-        holder.thumb.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-                itemClickListener.like_plus(model, position);
 
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                itemClickListener.like_minus(model, position);
-
-            }
-        });
 
 
         if (model.getProPic() == 0) {
@@ -85,6 +75,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
             glide.load(model.getPostPic()).into(holder.imgView_postPic);
         }
 
+        holder.model = model;
+
 
     }
 
@@ -93,12 +85,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         return modelArrayList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MainPostViewHolder extends RecyclerView.ViewHolder {
         TextView tv_name, tv_time, tv_likes, tv_comments, tv_title, tv_rankInfo, tv_recipeField;
         ImageView imgView_proPic, imgView_postPic;
         LikeButton heart, thumb;
+        ImageButton comment;
+        Model model;
+        int position;
 
-        public MyViewHolder(View itemView) {
+        public MainPostViewHolder(View itemView) {
             super(itemView);
             imgView_proPic = (ImageView) itemView.findViewById(R.id.imgView_proPic);
             imgView_postPic = (ImageView) itemView.findViewById(R.id.imgView_postPic);
@@ -111,6 +106,29 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
             tv_recipeField = (TextView) itemView.findViewById(R.id.tv_recipe_field);
             heart = (LikeButton) itemView.findViewById(R.id.heart_button);
             thumb = (LikeButton) itemView.findViewById(R.id.thumb_button);
+            comment = (ImageButton) itemView.findViewById(R.id.comment_button);
+            comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, CommentPageActivity.class));
+                }
+            });
+
+
+            thumb.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+                    Toast.makeText(context, "liked", Toast.LENGTH_SHORT).show();
+
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    Toast.makeText(context, "unliked", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
 
         }
     }

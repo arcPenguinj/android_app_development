@@ -8,31 +8,23 @@
     tools:context=".MainPageActivity">
 
 
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerView_comment"
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/recyclerView"
-        android:id="@+id/et_comment"
-        />
-
-    <Button
-        android:id="@+id/button"
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/commentBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_comment"
-        android:layout_marginTop="11dp"
-        android:layout_alignEnd="@+id/et_comment"
-        android:text="SUBMIT" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        android:src="@drawable/ic_comment_btn"
+        app:tint="@color/black" />
+
 
 
 </RelativeLayout>

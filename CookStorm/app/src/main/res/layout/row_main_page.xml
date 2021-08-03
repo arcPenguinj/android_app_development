@@ -150,15 +150,15 @@
                 android:layout_centerInParent="true">
 
                 <com.like.LikeButton
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:id="@+id/thumb_button"
                     app:icon_type="thumb"
                     app:circle_end_color = "@android:color/holo_blue_dark"
                     app:circle_start_color="@android:color/holo_blue_bright"
                     app:dots_primary_color="@android:color/holo_blue_light"
                     app:dots_secondary_color="@android:color/holo_blue_dark"
-                    app:icon_size="25dp"
+                    app:icon_size="15dp"
                     app:like_drawable="@drawable/thumb_on"
                     app:unlike_drawable="@drawable/thumb_off" />
 
@@ -181,10 +181,10 @@
                 android:layout_centerInParent="true">
 
                 <com.like.LikeButton
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:id="@+id/heart_button"
-                    app:icon_size="25dp"
+                    app:icon_size="15dp"
                     app:anim_scale_factor="3"
                     app:icon_type="heart"/>
 

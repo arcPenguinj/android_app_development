@@ -14,26 +14,17 @@
         tools:layout_editor_absoluteX="-16dp"
         tools:layout_editor_absoluteY="3dp">
 
-        <ImageView
-            android:id="@+id/imgView_proPic"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/elonmusk" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ll1"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/imgView_proPic"
             android:orientation="vertical">
 
 
             <TextView
-                android:id="@+id/tv_name"
+                android:id="@+id/tv_name_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
@@ -47,7 +38,7 @@
                 android:layout_height="match_parent" />
 
             <TextView
-                android:id="@+id/tv_rankInfo"
+                android:id="@+id/tv_rankInfo_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
@@ -56,7 +47,7 @@
                 android:textSize="17dp" />
 
             <TextView
-                android:id="@+id/tv_time"
+                android:id="@+id/tv_time_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -68,10 +59,10 @@
 
         <TextView
             android:id="@+id/comment_view"
-            android:layout_width="206dp"
-            android:layout_toRightOf="@+id/ll1"
-            android:layout_marginLeft="10dp"
+            android:layout_width="280dp"
             android:layout_height="68dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/ll1"
             android:text="TextView" />
 
 

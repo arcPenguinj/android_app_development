@@ -13,6 +13,7 @@
         <activity android:name=".MainPageActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".UserHomePage.UserPageActivity" />
+        <activity android:name=".CommentRecyclerView.CommentPageActivity" />
 
         <activity android:name=".MainActivity">
             <intent-filter>

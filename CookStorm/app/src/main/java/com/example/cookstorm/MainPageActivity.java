@@ -20,18 +20,16 @@ import com.like.LikeButton;
 
 import java.util.ArrayList;
 
-public class MainPageActivity extends AppCompatActivity implements ItemClickListener {
+public class MainPageActivity extends AppCompatActivity {
     FloatingActionButton addsBtn;
     FloatingActionButton homeBtn;
     RecyclerView recyclerView;
     ArrayList<Model> modelArrayList;
     Adapter adapter;
-    LikeButton thumb, heart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
@@ -92,7 +90,7 @@ public class MainPageActivity extends AppCompatActivity implements ItemClickList
                 String title = titlePost.getText().toString();
 
                 // 除了以上三个添加的参数信息， 其他参数需要从database来？
-                modelArrayList.add(new Model(10032, 13, 20, 2313, imgPost, "new user", "1 hrs ago", title, "master", text));
+                modelArrayList.add(new Model(10032, 13, 20, 2313, imgPost, "new user", "5 hrs ago", title, "Beginner", text));
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -132,20 +130,4 @@ public class MainPageActivity extends AppCompatActivity implements ItemClickList
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void like_minus(Model model, int position) {
-        if (model.getLikes() == 0) {
-            return;
-        } else {
-            model.likes--;
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void like_plus(Model model, int position) {
-        model.likes++;
-        adapter.notifyDataSetChanged();
-
-    }
 }
