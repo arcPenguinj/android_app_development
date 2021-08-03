@@ -91,7 +91,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MainPostViewHolder> {
         LikeButton heart, thumb;
         ImageButton comment;
         Model model;
-        int position;
 
         public MainPostViewHolder(View itemView) {
             super(itemView);
