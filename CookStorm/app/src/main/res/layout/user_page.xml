@@ -29,17 +29,17 @@
                 android:layout_margin="9dp"
                 android:layout_marginTop="15dp"
                 android:adjustViewBounds="true"
+                android:background="@drawable/ic_add_photo"
                 android:scaleType="centerInside"
                 android:spinnerMode="dropdown"
-                android:background="@drawable/ic_add_photo"
 
 
                 />
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_name"
+        <EditText
+            android:id="@+id/display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgUser"
@@ -55,14 +55,13 @@
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_name"
+            android:layout_below="@+id/display_name"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
             android:text="new york, usa"
             android:textAllCaps="true"
             android:textColor="@color/address"
             android:textSize="14sp" />
-
 
 
     </RelativeLayout>
@@ -81,8 +80,8 @@
             android:layout_weight="1"
             android:background="@color/followersBg"
             android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp">
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -119,8 +118,8 @@
             android:layout_weight="1"
             android:background="@color/followingBg"
             android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp">
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -129,8 +128,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
                     android:id="@+id/favorite_earned"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="873"
@@ -181,6 +180,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/user_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -209,7 +209,8 @@
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -227,6 +228,28 @@
 
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/update_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="72dp"
+            android:layout_marginBottom="42dp"
+            android:text="update profile" />
+
+        <Button
+            android:id="@+id/sign_out"
+            android:layout_width="83dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="38dp"
+            android:layout_marginEnd="74dp"
+            android:layout_marginBottom="33dp"
+            android:layout_toEndOf="@+id/update_profile"
+            android:text="sign out" />
 
     </RelativeLayout>
 

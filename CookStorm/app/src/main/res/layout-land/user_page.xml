@@ -10,8 +10,7 @@
         android:id="@+id/rellay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/grad"
-        >
+        android:background="@drawable/grad">
 
         <RelativeLayout
             android:id="@+id/imgUser"
@@ -81,8 +80,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@color/followersBg"
-            android:gravity="center"
-            >
+            android:gravity="center">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -127,8 +125,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
                     android:id="@+id/favorite_earned"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="873"
@@ -154,8 +152,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/linlay1"
-       >
+        android:layout_below="@+id/linlay1">
 
         <LinearLayout
             android:layout_width="match_parent"

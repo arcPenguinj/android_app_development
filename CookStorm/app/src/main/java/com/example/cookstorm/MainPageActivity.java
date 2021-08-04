@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.cookstorm.UserHomePage.UserPageActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseUser;
 import com.like.LikeButton;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class MainPageActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Model> modelArrayList;
     Adapter adapter;
+    FirebaseUser user;
 
 
     @Override
