@@ -4,6 +4,7 @@ import java.util.List;
 
 public class User {
     private String uid;
+    private int photoImg;
     private String email;
     private String phoneNumber;
     private String address;
@@ -12,6 +13,9 @@ public class User {
     public User(String uid, String email) {
         this.uid = uid;
         this.email = email;
+    }
+
+    public User() {
     }
 
     public String getUid() {
@@ -44,5 +48,13 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setPhotoImg(int photoImg) {
+        this.photoImg = photoImg;
+    }
+
+    public int getPhotoImg() {
+        return photoImg;
     }
 }

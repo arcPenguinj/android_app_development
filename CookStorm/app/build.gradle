@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-core:9.6.1'
     implementation 'org.jetbrains:annotations:15.0'
+    implementation 'com.google.firebase:firebase-database:20.0.1'
 
 
     testImplementation 'junit:junit:4.13.2'
