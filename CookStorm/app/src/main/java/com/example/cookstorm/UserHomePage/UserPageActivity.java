@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,13 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cookstorm.MainActivity;
-import com.example.cookstorm.MainPageActivity;
 import com.example.cookstorm.R;
+import com.example.cookstorm.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -33,11 +35,15 @@ public class UserPageActivity extends AppCompatActivity {
     private EditText displayedNameTextView;
     private TextView emailTextView;
     private EditText phoneNumberTextView;
-    private TextView likeNumber;
-    private TextView favoriteNumber;
-    private UserPhoto userPhoto;
+    private EditText addressTextView;
+    private int userPhotoPosition;
     private Button signOut;
     private Button updateProfile;
+    private DatabaseReference mDatabase;
+    private String uid;
+    private String email;
+    private User currentUser;
+    private Spinner spinnerPhotos;
 
 
     @Override
@@ -45,20 +51,24 @@ public class UserPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_page);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         emailTextView = (TextView) findViewById(R.id.user_email);
         phoneNumberTextView = (EditText) findViewById(R.id.phone_number);
         displayedNameTextView = (EditText) findViewById(R.id.display_name);
+        addressTextView = (EditText) findViewById(R.id.user_address);
         getUserProfile();
 
         //Photo selection
-        Spinner spinnerPhotos = findViewById(R.id.spinner_pic);
+        initList();
+        spinnerPhotos = findViewById(R.id.spinner_pic);
         mAdapter = new UserPhotoAdapter(this, photoList);
         spinnerPhotos.setAdapter(mAdapter);
         spinnerPhotos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                userPhoto = (UserPhoto) parent.getItemAtPosition(position);
-
+                UserPhoto userPhoto = (UserPhoto) parent.getItemAtPosition(position);
+                userPhotoPosition = position;
                 Toast.makeText(UserPageActivity.this, "User profile photo selected", Toast.LENGTH_SHORT).show();
             }
 
@@ -105,27 +115,53 @@ public class UserPageActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        currentUser.setPhoneNumber(phoneNumberTextView.getText().toString().trim());
+        currentUser.setPhotoImg(userPhotoPosition);
+        currentUser.setAddress(addressTextView.getText().toString().trim());
+
+        updateUser(currentUser);
     }
 
     public void getUserProfile() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        System.out.println(user.toString());
         if (user != null) {
-            // Name, email address, and profile photo Url
+            email = user.getEmail();
+            uid = user.getUid();
+            currentUser = new User(uid, email);
             String name = user.getDisplayName();
-            String email = user.getEmail();
-            String phoneNumber = user.getPhoneNumber();
-            int photoNumber = 0;
 
-            if (email != null) emailTextView.setText(email);
-            if (name != null && !name.isEmpty()) {
-                displayedNameTextView.setText(name);
-            } else {
-                displayedNameTextView.setText(user.getUid());
-            }
-            phoneNumberTextView.setText(phoneNumber == null || phoneNumber.isEmpty() ? "000-000-0000" : phoneNumber);
-            initList(photoNumber);
+            mDatabase.child("users").child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        currentUser = task.getResult().getValue(User.class);
+
+                        if (email != null) emailTextView.setText(email);
+                        if (name != null && !name.isEmpty()) {
+                            displayedNameTextView.setText(name);
+                        } else {
+                            displayedNameTextView.setText(uid);
+                        }
+                        phoneNumberTextView.setText(currentUser.getPhoneNumber() == null ? "000-000-0000" : currentUser.getPhoneNumber());
+                        addressTextView.setText(currentUser.getAddress() == null ? "address" : currentUser.getAddress());
+                        spinnerPhotos.setSelection(currentUser.getPhotoImg());
+
+                        TextView favoritePostsTextView = (TextView) findViewById(R.id.favorite_posts);
+                        favoritePostsTextView.setText(currentUser.getFavoritePostSize());
+                        TextView myPostsTextView = (TextView) findViewById(R.id.my_posts);
+                        myPostsTextView.setText(currentUser.getMyPostsSize());
+                    }
+                }
+            });
         }
+    }
+
+    public void updateUser(User user) {
+        mDatabase.child("users").child(user.getUid()).setValue(user);
+        Log.d(TAG, "User details updated.");
     }
 
     public void sendPasswordReset() {
@@ -149,7 +185,7 @@ public class UserPageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void initList(int photoNumber) {
+    private void initList() {
         photoList = new ArrayList<>();
 
         photoList.add(new UserPhoto(R.drawable.joey));
@@ -157,7 +193,5 @@ public class UserPageActivity extends AppCompatActivity {
         photoList.add(new UserPhoto(R.drawable.bear));
         photoList.add(new UserPhoto(R.drawable.elonmusk));
         photoList.add(new UserPhoto(R.drawable.kanye));
-        userPhoto = photoList.remove(photoNumber);
-        photoList.add(0, userPhoto);
     }
 }
