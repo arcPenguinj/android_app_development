@@ -9,13 +9,13 @@
     <RelativeLayout
         android:id="@+id/rellay1"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="90dp"
         android:background="@drawable/grad">
 
         <RelativeLayout
             android:id="@+id/imgUser"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:background="@drawable/circle_border">
@@ -23,8 +23,8 @@
 
             <Spinner
                 android:id="@+id/spinner_pic"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="9dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
@@ -38,30 +38,31 @@
 
         </RelativeLayout>
 
+
         <EditText
             android:id="@+id/display_name"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_below="@+id/imgUser"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5sp"
+            android:layout_height="70dp"
+            android:layout_marginRight="100dp"
+            android:layout_toLeftOf="@+id/imgUser"
+            android:layout_marginTop="20dp"
             android:fontFamily="sans-serif-light"
             android:text="Joey Tribbiani"
             android:textColor="@color/white"
             android:textSize="15sp" />
 
-
         <EditText
             android:id="@+id/user_address"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/display_name"
-            android:layout_centerHorizontal="true"
+            android:layout_height="70dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/imgUser"
             android:fontFamily="sans-serif"
             android:text="new york, usa"
             android:textAllCaps="true"
             android:textColor="@color/address"
-            android:textSize="10sp" />
+            android:textSize="15sp" />
 
 
     </RelativeLayout>
@@ -173,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:text="Email"
                     android:textColor="@color/headings"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/user_email"
@@ -182,7 +183,7 @@
                     android:fontFamily="sans-serif-light"
                     android:text="joey@sharenofood.com"
                     android:textColor="#000000"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -195,7 +196,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -203,7 +203,7 @@
                     android:layout_height="wrap_content"
                     android:text="Phone"
                     android:textColor="@color/headings"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
 
                 <EditText
                     android:id="@+id/phone_number"
@@ -212,12 +212,11 @@
                     android:fontFamily="sans-serif-light"
                     android:text="+1-202-555-0157"
                     android:textColor="#000000"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-
                     android:background="@color/grey" />
 
             </LinearLayout>
@@ -229,26 +228,27 @@
         <Button
             android:id="@+id/update_profile"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="31dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="11sp"
             android:text="update profile" />
 
         <Button
             android:id="@+id/sign_out"
-            android:layout_width="83dp"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="84dp"
             android:layout_marginEnd="28dp"
-            android:layout_marginRight="-672dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="10dp"
             android:layout_toLeftOf="@+id/update_profile"
             android:layout_toEndOf="@+id/update_profile"
-            android:text="sign out" />
+            android:text="sign out"
+            android:textSize="11sp"/>
 
     </RelativeLayout>
 
