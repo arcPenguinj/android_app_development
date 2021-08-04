@@ -8,7 +8,8 @@ public class User {
     private String email;
     private String phoneNumber;
     private String address;
-    private List<String> favoritePost;
+    private List<String> favoritePosts;
+    private List<String> myPosts;
 
     public User(String uid, String email) {
         this.uid = uid;
@@ -30,16 +31,16 @@ public class User {
         return phoneNumber;
     }
 
-    public List<String> getFavoritePost() {
-        return favoritePost;
+    public List<String> getFavoritePosts() {
+        return favoritePosts;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setFavoritePost(List<String> favoritePost) {
-        this.favoritePost = favoritePost;
+    public void setFavoritePosts(List<String> favoritePosts) {
+        this.favoritePosts = favoritePosts;
     }
 
     public String getAddress() {
@@ -56,5 +57,19 @@ public class User {
 
     public int getPhotoImg() {
         return photoImg;
+    }
+
+    public List<String> getMyPosts() {
+        return myPosts;
+    }
+
+    public String getFavoritePostSize() {
+        if (favoritePosts != null) return String.valueOf(favoritePosts.size());
+        return "0";
+    }
+
+    public String getMyPostsSize() {
+        if (myPosts != null) return String.valueOf(myPosts.size());
+        return "0";
     }
 }

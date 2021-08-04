@@ -38,8 +38,8 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_name"
+        <EditText
+            android:id="@+id/display_name"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_below="@+id/imgUser"
@@ -51,11 +51,11 @@
             android:textSize="19sp" />
 
 
-        <TextView
-            android:id="@+id/tv_address"
+        <EditText
+            android:id="@+id/user_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_name"
+            android:layout_below="@+id/display_name"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
             android:text="new york, usa"
@@ -89,7 +89,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/like_received"
+                    android:id="@+id/favorite_posts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -101,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="likes received"
+                    android:text="favorite posts"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
@@ -125,7 +125,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/favorite_earned"
+                    android:id="@+id/my_posts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -137,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="favorite earned"
+                    android:text="my posts"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
@@ -175,6 +175,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/user_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -203,7 +204,8 @@
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -218,8 +220,6 @@
                     android:background="@color/grey" />
 
             </LinearLayout>
-
-
 
 
         </LinearLayout>

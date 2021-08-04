@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cookstorm.MainActivity;
-import com.example.cookstorm.MainPageActivity;
 import com.example.cookstorm.R;
 import com.example.cookstorm.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,8 +35,7 @@ public class UserPageActivity extends AppCompatActivity {
     private EditText displayedNameTextView;
     private TextView emailTextView;
     private EditText phoneNumberTextView;
-    private TextView likeNumber;
-    private TextView favoriteNumber;
+    private EditText addressTextView;
     private int userPhotoPosition;
     private Button signOut;
     private Button updateProfile;
@@ -59,6 +56,7 @@ public class UserPageActivity extends AppCompatActivity {
         emailTextView = (TextView) findViewById(R.id.user_email);
         phoneNumberTextView = (EditText) findViewById(R.id.phone_number);
         displayedNameTextView = (EditText) findViewById(R.id.display_name);
+        addressTextView = (EditText) findViewById(R.id.user_address);
         getUserProfile();
 
         //Photo selection
@@ -117,8 +115,11 @@ public class UserPageActivity extends AppCompatActivity {
                         }
                     }
                 });
+
         currentUser.setPhoneNumber(phoneNumberTextView.getText().toString().trim());
         currentUser.setPhotoImg(userPhotoPosition);
+        currentUser.setAddress(addressTextView.getText().toString().trim());
+
         updateUser(currentUser);
     }
 
@@ -137,7 +138,6 @@ public class UserPageActivity extends AppCompatActivity {
                         Log.e("firebase", "Error getting data", task.getException());
                     } else {
                         currentUser = task.getResult().getValue(User.class);
-                        int photoNumber = currentUser.getPhotoImg();
 
                         if (email != null) emailTextView.setText(email);
                         if (name != null && !name.isEmpty()) {
@@ -146,12 +146,16 @@ public class UserPageActivity extends AppCompatActivity {
                             displayedNameTextView.setText(uid);
                         }
                         phoneNumberTextView.setText(currentUser.getPhoneNumber() == null ? "000-000-0000" : currentUser.getPhoneNumber());
+                        addressTextView.setText(currentUser.getAddress() == null ? "address" : currentUser.getAddress());
                         spinnerPhotos.setSelection(currentUser.getPhotoImg());
+
+                        TextView favoritePostsTextView = (TextView) findViewById(R.id.favorite_posts);
+                        favoritePostsTextView.setText(currentUser.getFavoritePostSize());
+                        TextView myPostsTextView = (TextView) findViewById(R.id.my_posts);
+                        myPostsTextView.setText(currentUser.getMyPostsSize());
                     }
                 }
             });
-
-
         }
     }
 
