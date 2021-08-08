@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 import com.example.cookstorm.CommentRecyclerView.CommentPageActivity;
+import com.example.cookstorm.model.Post;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
@@ -23,14 +24,14 @@ import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MainPostViewHolder> {
     Context context;
-    ArrayList<Model> modelArrayList = new ArrayList<>();
+    ArrayList<Post> postArrayList = new ArrayList<>();
     RequestManager glide;
     private OnLikeListener listener;
 
 
-    public Adapter(Context context, ArrayList<Model> modelArrayList) {
+    public Adapter(Context context, ArrayList<Post> postArrayList) {
         this.context = context;
-        this.modelArrayList = modelArrayList;
+        this.postArrayList = postArrayList;
         glide = Glide.with(context);
 
     }
@@ -45,44 +46,44 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MainPostViewHolder> {
 
     @Override
     public void onBindViewHolder(MainPostViewHolder holder, int position) {
-        final Model model = modelArrayList.get(position);
+        final Post post = postArrayList.get(position);
 
-        holder.tv_name.setText(model.getName());
-        holder.tv_time.setText(model.getTime());
-
-
-        holder.tv_likes.setText(String.valueOf(model.getLikes()));
-        holder.tv_comments.setText(model.getComments() + " comments");
-        holder.tv_title.setText(model.getTitle());
-        holder.tv_rankInfo.setText(model.getRankInfo());
-        holder.tv_recipeField.setText(model.getRecipeField());
+        holder.tv_name.setText(post.getName());
+        holder.tv_time.setText(post.getTime());
 
 
+        holder.tv_likes.setText(String.valueOf(post.getLikes()));
+        holder.tv_comments.setText(post.getComments() + " comments");
+        holder.tv_title.setText(post.getTitle());
+        holder.tv_rankInfo.setText(post.getRankInfo());
+        holder.tv_recipeField.setText(post.getRecipeField());
 
 
-        if (model.getProPic() == 0) {
+
+
+        if (post.getProPic() == 0) {
             holder.imgView_proPic.setVisibility(View.GONE);
         } else {
             holder.imgView_proPic.setVisibility(View.VISIBLE);
-            glide.load(model.getProPic()).into(holder.imgView_proPic);
+            glide.load(post.getProPic()).into(holder.imgView_proPic);
         }
 
 
-        if (model.getPostPic() == 0) {
+        if (post.getPostPic() == 0) {
             holder.imgView_postPic.setVisibility(View.GONE);
         } else {
             holder.imgView_postPic.setVisibility(View.VISIBLE);
-            glide.load(model.getPostPic()).into(holder.imgView_postPic);
+            glide.load(post.getPostPic()).into(holder.imgView_postPic);
         }
 
-        holder.model = model;
+        holder.post = post;
 
 
     }
 
     @Override
     public int getItemCount() {
-        return modelArrayList.size();
+        return postArrayList.size();
     }
 
     public class MainPostViewHolder extends RecyclerView.ViewHolder {
@@ -90,7 +91,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MainPostViewHolder> {
         ImageView imgView_proPic, imgView_postPic;
         LikeButton heart, thumb;
         ImageButton comment;
-        Model model;
+        Post post;
 
         public MainPostViewHolder(View itemView) {
             super(itemView);

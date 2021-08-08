@@ -15,9 +15,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.cookstorm.UserHomePage.UserPageActivity;
+import com.example.cookstorm.model.Post;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
-import com.like.LikeButton;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class MainPageActivity extends AppCompatActivity {
     FloatingActionButton addsBtn;
     FloatingActionButton homeBtn;
     RecyclerView recyclerView;
-    ArrayList<Model> modelArrayList;
+    ArrayList<Post> postArrayList;
     Adapter adapter;
     FirebaseUser user;
 
@@ -39,10 +39,10 @@ public class MainPageActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        modelArrayList = new ArrayList<>();
+        postArrayList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new Adapter(this, modelArrayList);
+        adapter = new Adapter(this, postArrayList);
         recyclerView.setAdapter(adapter);
 
 
@@ -92,7 +92,7 @@ public class MainPageActivity extends AppCompatActivity {
                 String title = titlePost.getText().toString();
 
                 // 除了以上三个添加的参数信息， 其他参数需要从database来？
-                modelArrayList.add(new Model(10032, 13, 20, 2313, imgPost, "new user", "5 hrs ago", title, "Beginner", text));
+                postArrayList.add(new Post(10032, 13, 20, 2313, imgPost, "new user", "5 hrs ago", title, "Beginner", text));
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -112,12 +112,12 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     public void populateRecyclerView() {
-        Model modelObama = new Model(1, 7, 8,
+        Post postObama = new Post(1, 7, 8,
                 R.drawable.obama, R.drawable.dumpling,
                 "Obama", "10 hours ago", "Chinese dumpling",
                 "Master", "buy some fresh dumpling to cook");
 
-        Model modelElon = new Model(2, 92, 9,
+        Post postElon = new Post(2, 92, 9,
                 R.drawable.elonmusk, R.drawable.bbq,
                 "Elon Musk", "12 hours ago", "Texas BBQ",
                 "Master", "Step 1 Place ribs in a large pot with enough water to cover. Season with garlic powder, " +
@@ -126,8 +126,8 @@ public class MainPageActivity extends AppCompatActivity {
                 "Remove ribs from pot, and place them in a 9x13 inch baking dish. Pour barbeque sauce over ribs. Cover dish with aluminum foil, " +
                 "and bake in the preheated oven for 1 to 1 1/2 hours, or until internal temperature of pork has reached 160 degrees F (70 degrees C)");
 
-        modelArrayList.add(modelObama);
-        modelArrayList.add(modelElon);
+        postArrayList.add(postObama);
+        postArrayList.add(postElon);
 
         adapter.notifyDataSetChanged();
     }

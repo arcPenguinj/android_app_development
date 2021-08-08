@@ -6,16 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.example.cookstorm.Model;
 import com.example.cookstorm.R;
 import com.like.OnLikeListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 

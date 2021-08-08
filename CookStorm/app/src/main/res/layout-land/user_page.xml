@@ -23,8 +23,8 @@
 
             <Spinner
                 android:id="@+id/spinner_pic"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="48dp"
+                android:layout_height="43dp"
                 android:layout_marginStart="9dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
@@ -231,24 +231,25 @@
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="31dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="11sp"
-            android:text="update profile" />
+            android:layout_marginStart="153dp"
+            android:layout_marginBottom="27dp"
+            android:text="update profile"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/sign_out"
-            android:layout_width="20dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="84dp"
-            android:layout_marginEnd="28dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginEnd="172dp"
+            android:layout_marginRight="-406dp"
+            android:layout_marginBottom="29dp"
             android:layout_toLeftOf="@+id/update_profile"
             android:layout_toEndOf="@+id/update_profile"
             android:text="sign out"
-            android:textSize="11sp"/>
+            android:textSize="11sp" />
 
     </RelativeLayout>
 

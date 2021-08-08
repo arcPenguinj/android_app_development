@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cookstorm.MainActivity;
+import com.example.cookstorm.MainPageActivity;
 import com.example.cookstorm.R;
 import com.example.cookstorm.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -121,6 +122,9 @@ public class UserPageActivity extends AppCompatActivity {
         currentUser.setAddress(addressTextView.getText().toString().trim());
 
         updateUser(currentUser);
+
+        Intent intent = new Intent(UserPageActivity.this, MainPageActivity.class);
+        startActivity(intent);
     }
 
     public void getUserProfile() {
@@ -162,21 +166,6 @@ public class UserPageActivity extends AppCompatActivity {
     public void updateUser(User user) {
         mDatabase.child("users").child(user.getUid()).setValue(user);
         Log.d(TAG, "User details updated.");
-    }
-
-    public void sendPasswordReset() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        String emailAddress = "user@example.com";
-
-        auth.sendPasswordResetEmail(emailAddress)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Email sent.");
-                        }
-                    }
-                });
     }
 
     public void signOut() {

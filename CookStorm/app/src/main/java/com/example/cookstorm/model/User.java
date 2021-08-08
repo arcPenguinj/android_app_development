@@ -9,7 +9,7 @@ public class User {
     private String phoneNumber;
     private String address;
     private List<String> favoritePosts;
-    private List<String> myPosts;
+    private List<Post> myPosts;
 
     public User(String uid, String email) {
         this.uid = uid;
@@ -59,7 +59,7 @@ public class User {
         return photoImg;
     }
 
-    public List<String> getMyPosts() {
+    public List<Post> getMyPosts() {
         return myPosts;
     }
 

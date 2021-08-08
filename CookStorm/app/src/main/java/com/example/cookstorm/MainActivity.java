@@ -15,9 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Button Login;
     private ProgressBar progressbar;
     private FirebaseAuth mAuth;
+    private Button forgetPswd;
 
 
     @Override
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         emailTextView = findViewById(R.id.etEmail);
         passwordTextView = findViewById(R.id.etPassword);
         progressbar = findViewById(R.id.progressBar);
+        forgetPswd = findViewById(R.id.forgotPassword);
 
         // taking instance of FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
@@ -64,6 +70,33 @@ public class MainActivity extends AppCompatActivity {
                     if (validate(email, password)) {
                         loginUserAccount(email, password);
                     }
+                }
+            }
+        });
+
+        forgetPswd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = emailTextView.getText().toString();
+                if (email != null && !email.isEmpty()) {
+                    mAuth.sendPasswordResetEmail(email)
+                    .addOnSuccessListener(new OnSuccessListener() {
+                        public void onSuccess(Object result) {
+                            // send email succeeded
+                            Toast.makeText(getApplicationContext(),
+                                    "Reset password succeeded, please check email",
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        public void onFailure(Exception e) {
+                        // something bad happened
+                            Toast.makeText(getApplicationContext(),
+                                    "Reset password failed, " + e.getMessage(),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                    }
+                });
                 }
             }
         });
@@ -119,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     // sign-in failed
                                     Toast.makeText(getApplicationContext(),
-                                            "Login failed!!",
+                                            "Login failed!! " + task.getException().getMessage(),
                                             Toast.LENGTH_LONG)
                                             .show();
 

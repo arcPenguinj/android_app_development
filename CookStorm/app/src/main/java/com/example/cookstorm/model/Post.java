@@ -1,12 +1,12 @@
-package com.example.cookstorm;
+package com.example.cookstorm.model;
 
-public class Model {
+public class Post {
 
 
     int id, likes, comments, proPic, postPic;
     String name, time, title, rankInfo, recipeField;
 
-    public Model(int id, int likes, int comments, int proPic, int postPic, String name, String time, String title, String rankInfo, String recipeField) {
+    public Post(int id, int likes, int comments, int proPic, int postPic, String name, String time, String title, String rankInfo, String recipeField) {
         this.id = id;
         this.likes = likes;
         this.comments = comments;
