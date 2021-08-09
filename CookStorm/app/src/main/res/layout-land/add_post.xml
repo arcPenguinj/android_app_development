@@ -8,54 +8,73 @@
     android:gravity="center">
 
 
-    <TextView
-        android:layout_width="390dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/purple_500"
-        android:elevation="15dp"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="Add your post"
-        android:textColor="@color/white"
-        android:textSize="13sp"
-        android:textStyle="bold" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/imagePost"
-        android:layout_width="127dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="5dp"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
+        <ImageButton
+            android:id="@+id/imagePost"
+            android:layout_width="220dp"
+            android:layout_height="94dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.499"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.037"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
 
-    <EditText
-        android:id="@+id/et_postTitle"
-        android:layout_width="387dp"
-        android:layout_height="47dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/shape_background"
-        android:gravity="center"
-        android:hint="Add your title here" />
+        <EditText
+            android:id="@+id/et_postTitle"
+            android:layout_width="400dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_background"
+            android:gravity="center"
+            android:hint="Add your title here"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/photoButton"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
-        android:id="@+id/et_postText"
-        android:layout_width="386dp"
-        android:layout_height="108dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/shape_background"
-        android:gravity="center"
-        android:hint="Add your recipe here" />
+        <EditText
+            android:id="@+id/et_postText"
+            android:layout_width="400dp"
+            android:layout_height="73dp"
+            android:background="@drawable/shape_background"
+            android:gravity="center"
+            android:hint="Add your recipe here"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_postTitle"
+            app:layout_constraintVertical_bias="0.067" />
 
+        <Button
+            android:id="@+id/photoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.298"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imagePost"
+            app:layout_constraintVertical_bias="0.043" />
 
+        <Button
+            android:id="@+id/galleryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gallery"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.701"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imagePost"
+            app:layout_constraintVertical_bias="0.043" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

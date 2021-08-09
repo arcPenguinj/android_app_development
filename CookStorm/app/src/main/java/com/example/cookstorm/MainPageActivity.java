@@ -1,24 +1,38 @@
 package com.example.cookstorm;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.Manifest;
 
 import com.example.cookstorm.UserHomePage.UserPageActivity;
 import com.example.cookstorm.model.Post;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainPageActivity extends AppCompatActivity {
@@ -28,7 +42,11 @@ public class MainPageActivity extends AppCompatActivity {
     ArrayList<Post> postArrayList;
     Adapter adapter;
     FirebaseUser user;
+    View addPostView;
 
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int PICK_IMAGE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +79,9 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openUserPageActivity();
-
             }
         });
     }
-
 
     public void openUserPageActivity() {
         Intent intent = new Intent(this, UserPageActivity.class);
@@ -74,15 +90,41 @@ public class MainPageActivity extends AppCompatActivity {
 
     public void addingPost() {
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.add_post, null);
+        addPostView = inflater.inflate(R.layout.add_post, null);
 
-        ImageView picPost = (ImageView) view.findViewById(R.id.imagePost);
-        EditText textPost = (EditText) view.findViewById(R.id.et_postText);
-        EditText titlePost = (EditText) view.findViewById(R.id.et_postTitle);
+        ImageView picPost = (ImageView) addPostView.findViewById(R.id.imagePost);
+        EditText textPost = (EditText) addPostView.findViewById(R.id.et_postText);
+        EditText titlePost = (EditText) addPostView.findViewById(R.id.et_postTitle);
+        Button photoButton = (Button) addPostView.findViewById(R.id.photoButton);
+        Button galleryButton = (Button) addPostView.findViewById(R.id.galleryButton);
+
+        photoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+                }
+                else
+                {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                }
+            }
+        });
+
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                openGallery();
+            }
+        });
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
-        dialog.setView(view);
+        dialog.setView(addPostView);
         dialog.setPositiveButton("Post", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -109,6 +151,52 @@ public class MainPageActivity extends AppCompatActivity {
 
         dialog.create();
         dialog.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_CAMERA_PERMISSION_CODE)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+            else
+            {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            if (addPostView != null) {
+                ImageView picPost = (ImageView) addPostView.findViewById(R.id.imagePost);
+                picPost.setImageBitmap(photo);
+            }
+        }
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            Uri imageUri = data.getData();
+            if (addPostView != null) {
+                ImageView picPost = (ImageView) addPostView.findViewById(R.id.imagePost);
+                picPost.setImageURI(imageUri);
+            }
+        }
+    }
+
+    private void openGallery() {
+        Intent gallery =
+                new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
     }
 
     public void populateRecyclerView() {
