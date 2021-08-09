@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.cookstorm.MainActivity;
 import com.example.cookstorm.MainPageActivity;
 import com.example.cookstorm.R;
+import com.example.cookstorm.Util;
 import com.example.cookstorm.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -70,7 +71,7 @@ public class UserPageActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 UserPhoto userPhoto = (UserPhoto) parent.getItemAtPosition(position);
                 userPhotoPosition = position;
-                Toast.makeText(UserPageActivity.this, "User profile photo selected", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(UserPageActivity.this, "User profile photo selected", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -103,23 +104,10 @@ public class UserPageActivity extends AppCompatActivity {
 
         String name = displayedNameTextView.getText().toString();
 
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .build();
-
-        user.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "User profile updated.");
-                        }
-                    }
-                });
-
         currentUser.setPhoneNumber(phoneNumberTextView.getText().toString().trim());
         currentUser.setPhotoImg(userPhotoPosition);
         currentUser.setAddress(addressTextView.getText().toString().trim());
+        currentUser.setDisplayName(name.trim());
 
         updateUser(currentUser);
 
@@ -133,7 +121,6 @@ public class UserPageActivity extends AppCompatActivity {
             email = user.getEmail();
             uid = user.getUid();
             currentUser = new User(uid, email);
-            String name = user.getDisplayName();
 
             mDatabase.child("users").child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -144,10 +131,11 @@ public class UserPageActivity extends AppCompatActivity {
                         currentUser = task.getResult().getValue(User.class);
 
                         if (email != null) emailTextView.setText(email);
+                        String name = currentUser.getDisplayName();
                         if (name != null && !name.isEmpty()) {
                             displayedNameTextView.setText(name);
                         } else {
-                            displayedNameTextView.setText(uid);
+                            displayedNameTextView.setText(email);
                         }
                         phoneNumberTextView.setText(currentUser.getPhoneNumber() == null ? "000-000-0000" : currentUser.getPhoneNumber());
                         addressTextView.setText(currentUser.getAddress() == null ? "address" : currentUser.getAddress());
@@ -175,12 +163,6 @@ public class UserPageActivity extends AppCompatActivity {
     }
 
     private void initList() {
-        photoList = new ArrayList<>();
-
-        photoList.add(new UserPhoto(R.drawable.joey));
-        photoList.add(new UserPhoto(R.drawable.obama));
-        photoList.add(new UserPhoto(R.drawable.bear));
-        photoList.add(new UserPhoto(R.drawable.elonmusk));
-        photoList.add(new UserPhoto(R.drawable.kanye));
+        photoList = Util.getPhotoList();
     }
 }

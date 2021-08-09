@@ -11,19 +11,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.cookstorm.R;
+import com.example.cookstorm.model.Comment;
 import com.like.OnLikeListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder>{
     Context context;
-    ArrayList<CommentModel> commentModelArrayList = new ArrayList<>();
+    List<Comment> commentArrayList = new ArrayList<>();
     RequestManager glide;
     private OnLikeListener listener;
 
-    public CommentAdapter(Context context, ArrayList<CommentModel> modelArrayList) {
+    public CommentAdapter(Context context, List<Comment> modelArrayList) {
         this.context = context;
-        this.commentModelArrayList = modelArrayList;
+        this.commentArrayList = modelArrayList;
         glide = Glide.with(context);
 
     }
@@ -36,20 +38,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
-        final CommentModel commentModel = commentModelArrayList.get(position);
-        holder.tv_name.setText(commentModel.getName());
-        holder.tv_time.setText(commentModel.getTime());
+        final Comment comment = commentArrayList.get(position);
+        holder.tv_name.setText(comment.getName());
+        holder.tv_time.setText(comment.getTime());
 
-        holder.tv_comment.setText(commentModel.getCommentText());
+        holder.tv_comment.setText(comment.getCommentText());
 
-        holder.tv_rankInfo.setText(commentModel.getRankInfo());
+        holder.tv_rankInfo.setText(comment.getRankInfo());
 
     }
 
 
     @Override
     public int getItemCount() {
-        return commentModelArrayList.size();
+        return commentArrayList.size();
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {

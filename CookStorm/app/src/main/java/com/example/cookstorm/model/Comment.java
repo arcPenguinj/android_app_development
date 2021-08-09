@@ -1,16 +1,18 @@
-package com.example.cookstorm.CommentRecyclerView;
+package com.example.cookstorm.model;
 
-public class CommentModel {
+public class Comment {
 
-    int id;
+    String id;
     String name;
     String time;
     String commentText;
     String rankInfo;
 
+    public Comment() {
 
+    }
 
-    public CommentModel(int id, String name, String rankInfo, String time, String commentText) {
+    public Comment(String id, String name, String rankInfo, String time, String commentText) {
         this.id = id;
         this.name = name;
         this.rankInfo = rankInfo;
@@ -18,7 +20,7 @@ public class CommentModel {
         this.commentText = commentText;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

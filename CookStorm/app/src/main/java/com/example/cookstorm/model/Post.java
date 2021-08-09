@@ -1,25 +1,31 @@
 package com.example.cookstorm.model;
 
+import android.graphics.Bitmap;
+
+import java.util.Date;
+
 public class Post {
+    int likes, comments;
+    String id, title, recipeField;
+    String postPic; // note - a fake string, it's actually a bitmap
+    String authorId;
+    Date time;
 
+    public Post() {
+    }
 
-    int id, likes, comments, proPic, postPic;
-    String name, time, title, rankInfo, recipeField;
-
-    public Post(int id, int likes, int comments, int proPic, int postPic, String name, String time, String title, String rankInfo, String recipeField) {
+    public Post(String id, int likes, int comments, String postPic, Date time, String title, String recipeField, String authorId) {
         this.id = id;
         this.likes = likes;
         this.comments = comments;
-        this.proPic = proPic;
         this.postPic = postPic;
-        this.name = name;
         this.time = time;
         this.title = title;
-        this.rankInfo = rankInfo;
         this.recipeField = recipeField;
+        this.authorId = authorId;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -31,19 +37,13 @@ public class Post {
         return comments;
     }
 
-    public int getProPic() {
-        return proPic;
-    }
+    public void setComments(int comments) { this.comments = comments; }
 
-    public int getPostPic() {
+    public String getPostPic() {
         return postPic;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
@@ -51,11 +51,13 @@ public class Post {
         return title;
     }
 
-    public String getRankInfo() {
-        return rankInfo;
-    }
-
     public String getRecipeField() {
         return recipeField;
     }
+
+    public String getAuthorId() { return authorId; }
+
+    public void likes() { this.likes++; }
+
+    public void unlikes() { this.likes--; }
 }

@@ -25,6 +25,18 @@
         android:src="@drawable/ic_comment_btn"
         app:tint="@color/black" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="311dp"
+        android:layout_marginBottom="18dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:tint="@color/black" />
 
 
 </RelativeLayout>

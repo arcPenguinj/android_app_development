@@ -1,52 +1,61 @@
 package com.example.cookstorm;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 
 import com.example.cookstorm.UserHomePage.UserPageActivity;
 import com.example.cookstorm.model.Post;
+import com.example.cookstorm.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class MainPageActivity extends AppCompatActivity {
     FloatingActionButton addsBtn;
     FloatingActionButton homeBtn;
     RecyclerView recyclerView;
-    ArrayList<Post> postArrayList;
+    List<Post> postArrayList;
     Adapter adapter;
-    FirebaseUser user;
+    User currentUser;
     View addPostView;
+
+    private DatabaseReference mDatabase;
 
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int CAMERA_REQUEST = 1888;
-    private static final int PICK_IMAGE = 100;
+    private static final int PICK_IMAGE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +63,6 @@ public class MainPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
 
         addsBtn = findViewById(R.id.addingBtn);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-        postArrayList = new ArrayList<>();
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new Adapter(this, postArrayList);
-        recyclerView.setAdapter(adapter);
-
-
         addsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,14 +70,29 @@ public class MainPageActivity extends AppCompatActivity {
             }
         });
 
-        populateRecyclerView();
-
         homeBtn = findViewById(R.id.homeBtn);
-
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openUserPageActivity();
+            }
+        });
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        postArrayList = new ArrayList<>();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        mDatabase.child("users").child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Toast.makeText(MainPageActivity.this, "Error getting author data!" + task.getException().toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    currentUser = task.getResult().getValue(User.class);
+                    loadPosts();
+                }
             }
         });
     }
@@ -93,6 +107,7 @@ public class MainPageActivity extends AppCompatActivity {
         addPostView = inflater.inflate(R.layout.add_post, null);
 
         ImageView picPost = (ImageView) addPostView.findViewById(R.id.imagePost);
+        picPost.setDrawingCacheEnabled(true);
         EditText textPost = (EditText) addPostView.findViewById(R.id.et_postText);
         EditText titlePost = (EditText) addPostView.findViewById(R.id.et_postTitle);
         Button photoButton = (Button) addPostView.findViewById(R.id.photoButton);
@@ -117,7 +132,13 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                openGallery();
+            }
+        });
 
+        picPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 openGallery();
             }
         });
@@ -130,12 +151,24 @@ public class MainPageActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(MainPageActivity.this, "posted!", Toast.LENGTH_SHORT).show();
                 String text = textPost.getText().toString();
-                int imgPost = picPost.getImageAlpha();
+                picPost.buildDrawingCache();
+                Bitmap bitmap = ((BitmapDrawable) picPost.getDrawable()).getBitmap();
                 String title = titlePost.getText().toString();
-
-                // 除了以上三个添加的参数信息， 其他参数需要从database来？
-                postArrayList.add(new Post(10032, 13, 20, 2313, imgPost, "new user", "5 hrs ago", title, "Beginner", text));
-                adapter.notifyDataSetChanged();
+                String id = UUID.randomUUID().toString();
+                Post newPost = new Post(
+                        id,
+                        0,
+                        0,
+                        Util.BitMapToString(bitmap),
+                        new Date(),
+                        title,
+                        text,
+                        currentUser.getUid());
+                mDatabase.child("posts").child(id).setValue(newPost);
+                // reCalculateMyPosts();
+                currentUser.addPost(id);
+                mDatabase.child("users").child(currentUser.getUid()).setValue(currentUser);
+                loadPosts();
                 dialog.dismiss();
             }
         });
@@ -199,25 +232,34 @@ public class MainPageActivity extends AppCompatActivity {
         startActivityForResult(gallery, PICK_IMAGE);
     }
 
-    public void populateRecyclerView() {
-        Post postObama = new Post(1, 7, 8,
-                R.drawable.obama, R.drawable.dumpling,
-                "Obama", "10 hours ago", "Chinese dumpling",
-                "Master", "buy some fresh dumpling to cook");
+    private void loadPosts() {
+        mDatabase.child("posts").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                 GenericTypeIndicator<HashMap<String, Post>> t = new GenericTypeIndicator<HashMap<String, Post>>() {};
+                 HashMap<String, Post> postsMap = task.getResult().getValue(t);
+                 if (postsMap == null || postsMap.size() == 0) {
+                     Toast.makeText(getApplicationContext(),"no posts yet!",Toast.LENGTH_SHORT).show();
+                 } else {
+                     postArrayList = new ArrayList<>(postsMap.values());
+                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainPageActivity.this);
+                     recyclerView.setLayoutManager(layoutManager);
+                     adapter = new Adapter(MainPageActivity.this, postArrayList, mDatabase, currentUser);
+                     recyclerView.setAdapter(adapter);
+                 }
+             }
+         }
+        );
+    }
 
-        Post postElon = new Post(2, 92, 9,
-                R.drawable.elonmusk, R.drawable.bbq,
-                "Elon Musk", "12 hours ago", "Texas BBQ",
-                "Master", "Step 1 Place ribs in a large pot with enough water to cover. Season with garlic powder, " +
-                "black pepper and salt. Bring water to a boil, and cook ribs until tender.\n\nStep 2 " +
-                "Preheat oven to 325 degrees F (165 degrees C).\n\nStep 3 " +
-                "Remove ribs from pot, and place them in a 9x13 inch baking dish. Pour barbeque sauce over ribs. Cover dish with aluminum foil, " +
-                "and bake in the preheated oven for 1 to 1 1/2 hours, or until internal temperature of pork has reached 160 degrees F (70 degrees C)");
-
-        postArrayList.add(postObama);
-        postArrayList.add(postElon);
-
-        adapter.notifyDataSetChanged();
+    private void reCalculateMyPosts() {
+        List<String> myPosts = new ArrayList<>();
+        for(Post p : postArrayList) {
+            if (p.getAuthorId().equalsIgnoreCase(currentUser.getUid())) {
+                myPosts.add(p.getId());
+            }
+        }
+        currentUser.setMyPosts(myPosts);
     }
 
 }

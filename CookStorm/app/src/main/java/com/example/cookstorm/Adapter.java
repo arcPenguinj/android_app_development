@@ -2,6 +2,8 @@ package com.example.cookstorm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,30 +12,43 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 import com.example.cookstorm.CommentRecyclerView.CommentPageActivity;
+import com.example.cookstorm.UserHomePage.UserPhoto;
 import com.example.cookstorm.model.Post;
+import com.example.cookstorm.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MainPostViewHolder> {
     Context context;
-    ArrayList<Post> postArrayList = new ArrayList<>();
+    List<Post> postArrayList = new ArrayList<>();
     RequestManager glide;
     private OnLikeListener listener;
+    private DatabaseReference mDatabase;
+    List<UserPhoto> userPhotos;
+    User currentUser;
 
-
-    public Adapter(Context context, ArrayList<Post> postArrayList) {
+    public Adapter(Context context, List<Post> postArrayList, DatabaseReference mDatabase, User currentUser) {
         this.context = context;
         this.postArrayList = postArrayList;
         glide = Glide.with(context);
-
+        this.mDatabase = mDatabase;
+        userPhotos = Util.getPhotoList();
+        this.currentUser = currentUser;
     }
 
     @Override
@@ -47,38 +62,49 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MainPostViewHolder> {
     @Override
     public void onBindViewHolder(MainPostViewHolder holder, int position) {
         final Post post = postArrayList.get(position);
+        String uid = post.getAuthorId();
+        mDatabase.child("users").child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting author data", task.getException());
+                } else {
+                    User author = task.getResult().getValue(User.class);
 
-        holder.tv_name.setText(post.getName());
-        holder.tv_time.setText(post.getTime());
-
-
-        holder.tv_likes.setText(String.valueOf(post.getLikes()));
-        holder.tv_comments.setText(post.getComments() + " comments");
-        holder.tv_title.setText(post.getTitle());
-        holder.tv_rankInfo.setText(post.getRankInfo());
-        holder.tv_recipeField.setText(post.getRecipeField());
-
-
-
-
-        if (post.getProPic() == 0) {
-            holder.imgView_proPic.setVisibility(View.GONE);
-        } else {
-            holder.imgView_proPic.setVisibility(View.VISIBLE);
-            glide.load(post.getProPic()).into(holder.imgView_proPic);
-        }
+                    holder.tv_name.setText(author.getDisplayName());
+                    holder.tv_time.setText(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(post.getTime()));
 
 
-        if (post.getPostPic() == 0) {
-            holder.imgView_postPic.setVisibility(View.GONE);
-        } else {
-            holder.imgView_postPic.setVisibility(View.VISIBLE);
-            glide.load(post.getPostPic()).into(holder.imgView_postPic);
-        }
+                    holder.tv_likes.setText(String.valueOf(post.getLikes()));
+                    holder.tv_comments.setText(post.getComments() + " comments");
+                    holder.tv_title.setText(post.getTitle());
+                    holder.tv_rankInfo.setText(author.getRanking());
+                    holder.tv_recipeField.setText(post.getRecipeField());
 
-        holder.post = post;
+                    if (author.getPhotoImg() >= userPhotos.size()) {
+                        holder.imgView_proPic.setVisibility(View.GONE);
+                    } else {
+                        holder.imgView_proPic.setVisibility(View.VISIBLE);
+                        // glide.load(author.getPhotoImg()).into(holder.imgView_proPic);
+                        holder.imgView_proPic.setImageDrawable(context.getDrawable(userPhotos.get(author.getPhotoImg()).getImg()));
+                    }
 
 
+                    if (post.getPostPic() == null) {
+                        holder.imgView_postPic.setVisibility(View.GONE);
+                    } else {
+                        holder.imgView_postPic.setVisibility(View.VISIBLE);
+                        holder.imgView_postPic.setImageBitmap(Util.StringToBitMap(post.getPostPic()));
+                        // glide.load(post.getPostPic()).into(holder.imgView_postPic);
+                    }
+                    holder.post = post;
+
+                    if (currentUser.getFavoritePosts() != null && currentUser.getFavoritePosts().contains(post.getId())) {
+                        holder.heart.setLiked(true);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -110,7 +136,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MainPostViewHolder> {
             comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, CommentPageActivity.class));
+                    Intent intent = new Intent(context, CommentPageActivity.class);
+                    intent.putExtra("postId", post.getId());
+                    intent.putExtra("uname", currentUser.getDisplayName());
+                    context.startActivity(intent);
                 }
             });
 
@@ -118,17 +147,34 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MainPostViewHolder> {
             thumb.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
-                    Toast.makeText(context, "liked", Toast.LENGTH_SHORT).show();
-
+                    // Toast.makeText(context, "liked", Toast.LENGTH_SHORT).show();
+                    post.likes();
+                    tv_likes.setText(String.valueOf(post.getLikes()));
+                    mDatabase.child("posts").child(post.getId()).setValue(post);
                 }
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
-                    Toast.makeText(context, "unliked", Toast.LENGTH_SHORT).show();
-
+                    // Toast.makeText(context, "unliked", Toast.LENGTH_SHORT).show();
+                    post.unlikes();
+                    tv_likes.setText(String.valueOf(post.getLikes()));
+                    mDatabase.child("posts").child(post.getId()).setValue(post);
                 }
             });
 
+            heart.setOnLikeListener(new OnLikeListener(){
+                @Override
+                public void liked(LikeButton likeButton) {
+                    currentUser.addFavoritePost(post.getId());
+                    mDatabase.child("users").child(currentUser.getUid()).setValue(currentUser);
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    currentUser.removeFavoritePost(post.getId());
+                    mDatabase.child("users").child(currentUser.getUid()).setValue(currentUser);
+                }
+            });
 
         }
     }
