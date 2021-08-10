@@ -13,11 +13,12 @@ public class Util {
     public static ArrayList<UserPhoto> getPhotoList() {
         ArrayList<UserPhoto> photoList = new ArrayList<>();
 
-        photoList.add(new UserPhoto(R.drawable.joey));
-        photoList.add(new UserPhoto(R.drawable.obama));
-        photoList.add(new UserPhoto(R.drawable.bear));
-        photoList.add(new UserPhoto(R.drawable.elonmusk));
-        photoList.add(new UserPhoto(R.drawable.kanye));
+        photoList.add(new UserPhoto(R.drawable.user_icon_1));
+        photoList.add(new UserPhoto(R.drawable.user_icon_2));
+        photoList.add(new UserPhoto(R.drawable.user_icon_3));
+        photoList.add(new UserPhoto(R.drawable.user_icon_4));
+        photoList.add(new UserPhoto(R.drawable.user_icon_5));
+        photoList.add(new UserPhoto(R.drawable.user_icon_6));
         return photoList;
     }
 

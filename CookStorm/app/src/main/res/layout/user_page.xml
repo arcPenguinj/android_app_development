@@ -32,8 +32,6 @@
                 android:background="@drawable/ic_add_photo"
                 android:scaleType="centerInside"
                 android:spinnerMode="dropdown"
-
-
                 />
 
         </RelativeLayout>
