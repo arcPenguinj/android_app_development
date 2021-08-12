@@ -36,6 +36,7 @@ public class UserPageActivity extends AppCompatActivity {
     private static final String TAG = "UserPageActivity";
     private EditText displayedNameTextView;
     private TextView emailTextView;
+    private TextView awardsTextView;
     private EditText phoneNumberTextView;
     private EditText addressTextView;
     private int userPhotoPosition;
@@ -56,6 +57,7 @@ public class UserPageActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         emailTextView = (TextView) findViewById(R.id.user_email);
+        awardsTextView = (TextView) findViewById(R.id.awards);
         phoneNumberTextView = (EditText) findViewById(R.id.phone_number);
         displayedNameTextView = (EditText) findViewById(R.id.display_name);
         addressTextView = (EditText) findViewById(R.id.user_address);
@@ -145,6 +147,21 @@ public class UserPageActivity extends AppCompatActivity {
                         favoritePostsTextView.setText(currentUser.getFavoritePostSize());
                         TextView myPostsTextView = (TextView) findViewById(R.id.my_posts);
                         myPostsTextView.setText(currentUser.getMyPostsSize());
+
+                        StringBuilder awardsString = new StringBuilder();
+                        if (Integer.parseInt(currentUser.getMyPostsSize()) >= 1) {
+                            awardsString.append("First Post Award | ");
+                        }
+                        if (Integer.parseInt(currentUser.getMyPostsSize()) >= 5) {
+                            awardsString.append("Five Posts Award | ");
+                        }
+                        if (Integer.parseInt(currentUser.getFavoritePostSize()) >= 1) {
+                            awardsString.append("First Favorite Award | ");
+                        }
+                        String awards = awardsString.toString();
+                        if (!awards.isEmpty() && awards.length() >= 5) {
+                            awardsTextView.setText(awards);
+                        }
                     }
                 }
             });
