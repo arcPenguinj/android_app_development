@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
@@ -50,6 +51,7 @@ public class MainPageActivity extends AppCompatActivity {
     Adapter adapter;
     User currentUser;
     View addPostView;
+    ProgressBar spinner;
 
     private DatabaseReference mDatabase;
 
@@ -61,6 +63,9 @@ public class MainPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+
+        spinner = findViewById(R.id.spinner);
+        spinner.setVisibility(View.VISIBLE);
 
         addsBtn = findViewById(R.id.addingBtn);
         addsBtn.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +170,7 @@ public class MainPageActivity extends AppCompatActivity {
                         text,
                         currentUser.getUid());
                 mDatabase.child("posts").child(id).setValue(newPost);
-                // reCalculateMyPosts();
+                reCalculateMyPosts();
                 currentUser.addPost(id);
                 mDatabase.child("users").child(currentUser.getUid()).setValue(currentUser);
                 loadPosts();
@@ -247,6 +252,8 @@ public class MainPageActivity extends AppCompatActivity {
                      adapter = new Adapter(MainPageActivity.this, postArrayList, mDatabase, currentUser);
                      recyclerView.setAdapter(adapter);
                  }
+
+                spinner.setVisibility(View.INVISIBLE);
              }
          }
         );
